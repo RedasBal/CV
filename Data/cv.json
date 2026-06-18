@@ -1,0 +1,143 @@
+{
+  "profile": {
+    "name": "Redas Baltrėnas",
+    "title": "Junior Backend Developer",
+    "summary": "Motivated software engineering student with hands-on experience in Java and .NET backend development. Proven track record of delivering real-world solutions — from updating POS systems to building an AI-powered image analysis web application. Combines strong technical skills with excellent communication experience. Eager to grow as a backend developer in a collaborative team environment.",
+    "location": "Vilnius, Lithuania",
+    "phone": "+370 656 33834",
+    "email": "redas.baltrenas@gmail.com",
+    "gitHub": "github.com/RedasBal",
+    "gitHubUrl": "https://github.com/RedasBal",
+    "age": 21,
+    "studies": "B.Sc. Software Engineering · VGTU · 2023–present"
+  },
+  "experience": [
+    {
+      "period": "2026.07 – 2026.08",
+      "role": "Android Engineer Intern",
+      "company": "Shift4",
+      "upcoming": true,
+      "highlights": [
+        "Confirmed internship starting July 7, 2026 — Android mobile development using Kotlin",
+        "Fixed-term position: 7 July – 28 August 2026"
+      ]
+    },
+    {
+      "period": "2025.06 – 2026.07",
+      "role": "Departing Service Agent",
+      "company": "Litcargus · Vilnius Airport",
+      "upcoming": false,
+      "highlights": [
+        "Verify passenger travel documents using the Timatic document check system",
+        "Board passengers and handle operational situations for AirBaltic, Lufthansa, Ryanair, GetJet, Heston",
+        "Proficient in aviation software: Altea, Iport, GoNow"
+      ]
+    },
+    {
+      "period": "2025.03 – 2025.06",
+      "role": "Software Developer Intern",
+      "company": "Sportland",
+      "upcoming": false,
+      "highlights": [
+        "Developed new Java features for the Sportland POS system in collaboration with SportDirect UK and StrongPoint",
+        "Maintained and updated the company website using .NET (C#)",
+        "Debugged and resolved existing code issues across Java and .NET codebases"
+      ]
+    },
+    {
+      "period": "2024.09 – 2025.06",
+      "role": "Retail Consultant",
+      "company": "Sportland",
+      "upcoming": false,
+      "highlights": [
+        "Assisted customers with product selection and problem resolution",
+        "Operated cash register systems and handled transactions"
+      ]
+    },
+    {
+      "period": "2024.05 – 2024.09",
+      "role": "Car Detailer",
+      "company": "Švaros Broliai",
+      "upcoming": false,
+      "highlights": [
+        "Performed full interior and exterior vehicle cleaning using professional chemical products"
+      ]
+    },
+    {
+      "period": "2024.01 – 2024.05",
+      "role": "Logistics Operator",
+      "company": "DPD",
+      "upcoming": false,
+      "highlights": [
+        "Package sorting and conveyor belt management; truck loading and dispatching"
+      ]
+    },
+    {
+      "period": "2023.03 – 2023.10",
+      "role": "Food Courier",
+      "company": "Wolt / Bolt Food",
+      "upcoming": false,
+      "highlights": [
+        "Delivered food orders by car ensuring customer satisfaction and timely delivery"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "AI-Powered Image Recommendation System",
+      "category": "Team Project",
+      "description": "Built a web app that accepts an uploaded image, sends it to an AI model, and returns personalised recommendations via a custom algorithm. Responsible for backend architecture in .NET (C#) and external AI API integration. Collaborated in a team with Git-based version control.",
+      "tech": ["C#", ".NET", "JavaScript", "AI API"],
+      "url": null
+    },
+    {
+      "name": "EventPlaner",
+      "category": "Personal Project",
+      "description": "Event planning application built with Java and Spring.",
+      "tech": ["Java", "Spring"],
+      "url": "https://github.com/RedasBal/EventPlaner"
+    },
+    {
+      "name": "University Coursework",
+      "category": "Academic Projects",
+      "description": "Multiple programming assignments as part of the Software Engineering curriculum at VGTU.",
+      "tech": ["C++", "HTML", "CSS", "JavaScript"],
+      "url": null
+    }
+  ],
+  "skills": [
+    { "name": "Java", "level": 4 },
+    { "name": ".NET / C#", "level": 4 },
+    { "name": "Kotlin", "level": 3 },
+    { "name": "C++", "level": 4 },
+    { "name": "JavaScript", "level": 4 },
+    { "name": "HTML / CSS", "level": 4 },
+    { "name": "Spring", "level": 4 },
+    { "name": "SQL / Databases", "level": 3 },
+    { "name": "Git", "level": 4 },
+    { "name": "Python", "level": 3 },
+    { "name": "Docker", "level": 2 },
+    { "name": "AI Integration", "level": 3 },
+    { "name": "Excel / Word", "level": 4 },
+    { "name": "POS Systems", "level": 4 }
+  ],
+  "languages": [
+    { "name": "Lithuanian", "level": 5 },
+    { "name": "English", "level": 4 },
+    { "name": "Russian (written)", "level": 3 }
+  ],
+  "education": [
+    {
+      "period": "2023 – Present",
+      "title": "B.Sc. Software Engineering",
+      "institution": "Vilniaus Gedimino Technikos Universitetas",
+      "note": "Higher education (bachelor's degree) — currently ongoing"
+    },
+    {
+      "period": "2022.10",
+      "title": "Junior Programmer Certificate (135h)",
+      "institution": "Alytaus Kolegija",
+      "note": "Programming and task completion using C++"
+    }
+  ]
+}

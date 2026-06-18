@@ -1,0 +1,20 @@
+## .NET build output
+bin/
+obj/
+out/
+publish/
+
+## Rider / JetBrains
+.idea/
+*.user
+
+## App runtime data (contact-form submissions)
+App_Data/
+
+## Logs
+*.log
+
+## OS / misc
+.vs/
+*.swp
+.DS_Store

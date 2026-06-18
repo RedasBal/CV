@@ -1,0 +1,10 @@
+# Render blueprint — lets Render auto-configure the service from this repo.
+# https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: redas-cv
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
+    healthCheckPath: /

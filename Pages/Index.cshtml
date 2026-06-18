@@ -1,0 +1,250 @@
+@page
+@model IndexModel
+@{
+    var p = Model.Data.Profile;
+    ViewData["Title"] = $"{p.Name} — {p.Title}";
+    ViewData["Description"] = p.Summary;
+}
+
+<header class="nav" id="top">
+    <div class="container nav-inner">
+        <a href="#top" class="brand">@p.Name</a>
+        <nav class="nav-links" id="navLinks">
+            <a href="#about">About</a>
+            <a href="#experience">Experience</a>
+            <a href="#projects">Projects</a>
+            <a href="#skills">Skills</a>
+            <a href="#education">Education</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <div class="nav-actions">
+            <button id="themeToggle" class="icon-btn" aria-label="Toggle theme" title="Toggle theme">
+                <span class="theme-icon"></span>
+            </button>
+            <button id="navToggle" class="icon-btn nav-burger" aria-label="Menu">☰</button>
+        </div>
+    </div>
+</header>
+
+<main>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container hero-inner">
+            <div class="hero-text reveal">
+                <p class="eyebrow">@p.Studies</p>
+                <h1>@p.Name</h1>
+                <h2 class="gradient-text">@p.Title</h2>
+                <p class="lead">@p.Summary</p>
+                <div class="hero-cta">
+                    <a class="btn btn-primary" href="#contact">Get in touch</a>
+                    <a class="btn btn-ghost" href="@p.GitHubUrl" target="_blank" rel="noopener">View GitHub →</a>
+                </div>
+                <ul class="hero-meta">
+                    <li><span>📍</span> @p.Location</li>
+                    <li><span>✉</span> <a href="mailto:@p.Email">@p.Email</a></li>
+                    <li><span>📞</span> @p.Phone</li>
+                </ul>
+            </div>
+            <div class="hero-card reveal">
+                <div class="avatar">@GetInitials(p.Name)</div>
+                <div class="hero-stats">
+                    <div><strong>@p.Age</strong><span>years old</span></div>
+                    <div><strong>@Model.Data.Experience.Count</strong><span>roles</span></div>
+                    <div><strong>@Model.Data.Projects.Count</strong><span>projects</span></div>
+                </div>
+                <a class="hero-handle" href="@p.GitHubUrl" target="_blank" rel="noopener">@p.GitHub</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section">
+        <div class="container">
+            <h3 class="section-title reveal"><span class="num">01</span> About</h3>
+            <div class="about-grid">
+                <p class="reveal">@p.Summary</p>
+                <div class="about-facts reveal">
+                    <div><span>Role</span>@p.Title</div>
+                    <div><span>Location</span>@p.Location</div>
+                    <div><span>Studies</span>@p.Studies</div>
+                    <div><span>Languages</span>@string.Join(", ", Model.Data.Languages.Select(l => l.Name))</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience" class="section alt">
+        <div class="container">
+            <h3 class="section-title reveal"><span class="num">02</span> Experience</h3>
+            <div class="timeline">
+                @foreach (var job in Model.Data.Experience)
+                {
+                    <div class="timeline-item reveal">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-card">
+                            <div class="timeline-head">
+                                <span class="period">@job.Period</span>
+                                @if (job.Upcoming)
+                                {
+                                    <span class="badge">Upcoming</span>
+                                }
+                            </div>
+                            <h4>@job.Role</h4>
+                            <p class="company">@job.Company</p>
+                            <ul>
+                                @foreach (var h in job.Highlights)
+                                {
+                                    <li>@h</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section">
+        <div class="container">
+            <h3 class="section-title reveal"><span class="num">03</span> Projects</h3>
+            <div class="cards">
+                @foreach (var proj in Model.Data.Projects)
+                {
+                    <article class="card reveal">
+                        <p class="card-cat">@proj.Category</p>
+                        <h4>@proj.Name</h4>
+                        <p class="card-desc">@proj.Description</p>
+                        <div class="tags">
+                            @foreach (var t in proj.Tech)
+                            {
+                                <span class="tag">@t</span>
+                            }
+                        </div>
+                        @if (!string.IsNullOrEmpty(proj.Url))
+                        {
+                            <a class="card-link" href="@proj.Url" target="_blank" rel="noopener">Open repository →</a>
+                        }
+                    </article>
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="section alt">
+        <div class="container">
+            <h3 class="section-title reveal"><span class="num">04</span> Skills &amp; Languages</h3>
+            <div class="skills-grid">
+                <div class="reveal">
+                    <h4 class="sub">Technical</h4>
+                    <div class="bars">
+                        @foreach (var s in Model.Data.Skills)
+                        {
+                            <div class="bar">
+                                <div class="bar-label"><span>@s.Name</span></div>
+                                <div class="bar-track"><div class="bar-fill" data-level="@(s.Level * 20)"></div></div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="reveal">
+                    <h4 class="sub">Languages</h4>
+                    <div class="bars">
+                        @foreach (var l in Model.Data.Languages)
+                        {
+                            <div class="bar">
+                                <div class="bar-label"><span>@l.Name</span></div>
+                                <div class="bar-track"><div class="bar-fill" data-level="@(l.Level * 20)"></div></div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education" class="section">
+        <div class="container">
+            <h3 class="section-title reveal"><span class="num">05</span> Education &amp; Courses</h3>
+            <div class="cards">
+                @foreach (var e in Model.Data.Education)
+                {
+                    <article class="card reveal">
+                        <p class="card-cat">@e.Period</p>
+                        <h4>@e.Title</h4>
+                        <p class="company">@e.Institution</p>
+                        <p class="card-desc">@e.Note</p>
+                    </article>
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section alt">
+        <div class="container contact-wrap">
+            <div class="reveal">
+                <h3 class="section-title"><span class="num">06</span> Get in touch</h3>
+                <p class="contact-blurb">
+                    Open to backend / full-stack opportunities. Drop a message below or reach me directly.
+                </p>
+                <ul class="contact-list">
+                    <li><span>✉</span> <a href="mailto:@p.Email">@p.Email</a></li>
+                    <li><span>📞</span> @p.Phone</li>
+                    <li><span>🔗</span> <a href="@p.GitHubUrl" target="_blank" rel="noopener">@p.GitHub</a></li>
+                    <li><span>📍</span> @p.Location</li>
+                </ul>
+            </div>
+            <div class="reveal">
+                @if (Model.MessageSent)
+                {
+                    <div class="alert success" role="status">
+                        ✓ Thanks — your message has been received. I'll get back to you soon.
+                    </div>
+                }
+                <form method="post" class="contact-form" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="alert error"></div>
+                    <div class="field">
+                        <label asp-for="Contact.Name">Name</label>
+                        <input asp-for="Contact.Name" placeholder="Your name" />
+                        <span asp-validation-for="Contact.Name" class="field-error"></span>
+                    </div>
+                    <div class="field">
+                        <label asp-for="Contact.Email">Email</label>
+                        <input asp-for="Contact.Email" placeholder="you@example.com" />
+                        <span asp-validation-for="Contact.Email" class="field-error"></span>
+                    </div>
+                    <div class="field">
+                        <label asp-for="Contact.Message">Message</label>
+                        <textarea asp-for="Contact.Message" rows="5" placeholder="Hi Redas, ..."></textarea>
+                        <span asp-validation-for="Contact.Message" class="field-error"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="container footer-inner">
+        <span>© @DateTime.Now.Year @p.Name</span>
+        <span class="footer-built">Built with ASP.NET Core 8 · Razor Pages</span>
+        <a href="#top" class="to-top">Back to top ↑</a>
+    </div>
+</footer>
+
+@functions {
+    static string GetInitials(string name)
+    {
+        var parts = name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        return string.Concat(parts.Take(2).Select(s => char.ToUpper(s[0])));
+    }
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
