@@ -1,0 +1,210 @@
+@page
+@model CV.Pages.Admin.IndexModel
+@{
+    ViewData["Title"] = "Admin · Edit CV";
+    var p = Model.Input.Profile;
+}
+
+<div class="admin">
+    <header class="admin-bar">
+        <div class="container admin-bar-inner">
+            <span class="brand">CV admin</span>
+            <div class="admin-actions">
+                <a class="btn btn-ghost btn-sm" href="/" target="_blank" rel="noopener">View site ↗</a>
+                <a class="btn btn-ghost btn-sm" href="?handler=Export">Export JSON</a>
+                <form method="post" asp-page-handler="Logout" class="inline">
+                    <button type="submit" class="btn btn-ghost btn-sm">Log out</button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <div class="container admin-body">
+        <h1>Edit your CV</h1>
+
+        @if (Model.Saved)
+        {
+            <div class="alert success" role="status">✓ Saved. Your live site is updated.</div>
+        }
+        <div asp-validation-summary="All" class="alert error"></div>
+
+        <form method="post" asp-page-handler="Save" id="cvForm">
+
+            <!-- PROFILE -->
+            <section class="adm-section">
+                <h2>Profile</h2>
+                <div class="grid-2">
+                    <div class="field"><label asp-for="Input.Profile.Name">Name</label><input asp-for="Input.Profile.Name" /></div>
+                    <div class="field"><label asp-for="Input.Profile.Title">Title</label><input asp-for="Input.Profile.Title" /></div>
+                </div>
+                <div class="field"><label asp-for="Input.Profile.Summary">Summary</label><textarea asp-for="Input.Profile.Summary" rows="4"></textarea></div>
+                <div class="grid-2">
+                    <div class="field"><label asp-for="Input.Profile.Location">Location</label><input asp-for="Input.Profile.Location" /></div>
+                    <div class="field"><label asp-for="Input.Profile.Phone">Phone</label><input asp-for="Input.Profile.Phone" /></div>
+                    <div class="field"><label asp-for="Input.Profile.Email">Email</label><input asp-for="Input.Profile.Email" /></div>
+                    <div class="field"><label asp-for="Input.Profile.Age">Age</label><input asp-for="Input.Profile.Age" type="number" min="0" max="120" /></div>
+                    <div class="field"><label asp-for="Input.Profile.GitHub">GitHub (label)</label><input asp-for="Input.Profile.GitHub" /></div>
+                    <div class="field"><label asp-for="Input.Profile.GitHubUrl">GitHub URL</label><input asp-for="Input.Profile.GitHubUrl" /></div>
+                </div>
+                <div class="field"><label asp-for="Input.Profile.Studies">Studies line</label><input asp-for="Input.Profile.Studies" /></div>
+            </section>
+
+            <!-- EXPERIENCE -->
+            <section class="adm-section">
+                <div class="adm-section-head"><h2>Experience</h2><button type="button" class="btn btn-ghost btn-sm" data-add="Experience">+ Add</button></div>
+                <div class="adm-rows" data-section="Experience">
+                    @for (var i = 0; i < Model.Input.Experience.Count; i++)
+                    {
+                        var e = Model.Input.Experience[i];
+                        <div class="adm-row" data-section="Experience">
+                            <div class="grid-2">
+                                <div class="field"><label>Period</label><input data-field="Period" name="Input.Experience[@i].Period" value="@e.Period" /></div>
+                                <div class="field"><label>Role</label><input data-field="Role" name="Input.Experience[@i].Role" value="@e.Role" /></div>
+                                <div class="field"><label>Company</label><input data-field="Company" name="Input.Experience[@i].Company" value="@e.Company" /></div>
+                                <div class="field check"><label><input type="checkbox" data-field="Upcoming" name="Input.Experience[@i].Upcoming" value="true" @(e.Upcoming ? "checked" : "") /> Upcoming</label></div>
+                            </div>
+                            <div class="field"><label>Highlights (one per line)</label><textarea data-field="Highlights" name="Input.Experience[@i].Highlights" rows="3">@e.Highlights</textarea></div>
+                            <button type="button" class="btn btn-danger btn-sm" data-remove>Remove</button>
+                        </div>
+                    }
+                </div>
+            </section>
+
+            <!-- PROJECTS -->
+            <section class="adm-section">
+                <div class="adm-section-head"><h2>Projects</h2><button type="button" class="btn btn-ghost btn-sm" data-add="Projects">+ Add</button></div>
+                <div class="adm-rows" data-section="Projects">
+                    @for (var i = 0; i < Model.Input.Projects.Count; i++)
+                    {
+                        var pr = Model.Input.Projects[i];
+                        <div class="adm-row" data-section="Projects">
+                            <div class="grid-2">
+                                <div class="field"><label>Name</label><input data-field="Name" name="Input.Projects[@i].Name" value="@pr.Name" /></div>
+                                <div class="field"><label>Category</label><input data-field="Category" name="Input.Projects[@i].Category" value="@pr.Category" /></div>
+                            </div>
+                            <div class="field"><label>Description</label><textarea data-field="Description" name="Input.Projects[@i].Description" rows="3">@pr.Description</textarea></div>
+                            <div class="grid-2">
+                                <div class="field"><label>Tech (comma separated)</label><input data-field="Tech" name="Input.Projects[@i].Tech" value="@pr.Tech" /></div>
+                                <div class="field"><label>URL (optional)</label><input data-field="Url" name="Input.Projects[@i].Url" value="@pr.Url" /></div>
+                            </div>
+                            <button type="button" class="btn btn-danger btn-sm" data-remove>Remove</button>
+                        </div>
+                    }
+                </div>
+            </section>
+
+            <!-- SKILLS -->
+            <section class="adm-section">
+                <div class="adm-section-head"><h2>Skills</h2><button type="button" class="btn btn-ghost btn-sm" data-add="Skills">+ Add</button></div>
+                <div class="adm-rows compact" data-section="Skills">
+                    @for (var i = 0; i < Model.Input.Skills.Count; i++)
+                    {
+                        var s = Model.Input.Skills[i];
+                        <div class="adm-row inline-row" data-section="Skills">
+                            <div class="field grow"><label>Skill</label><input data-field="Name" name="Input.Skills[@i].Name" value="@s.Name" /></div>
+                            <div class="field"><label>Level (1–5)</label><input data-field="Level" name="Input.Skills[@i].Level" type="number" min="1" max="5" value="@s.Level" /></div>
+                            <button type="button" class="btn btn-danger btn-sm" data-remove>✕</button>
+                        </div>
+                    }
+                </div>
+            </section>
+
+            <!-- LANGUAGES -->
+            <section class="adm-section">
+                <div class="adm-section-head"><h2>Languages</h2><button type="button" class="btn btn-ghost btn-sm" data-add="Languages">+ Add</button></div>
+                <div class="adm-rows compact" data-section="Languages">
+                    @for (var i = 0; i < Model.Input.Languages.Count; i++)
+                    {
+                        var l = Model.Input.Languages[i];
+                        <div class="adm-row inline-row" data-section="Languages">
+                            <div class="field grow"><label>Language</label><input data-field="Name" name="Input.Languages[@i].Name" value="@l.Name" /></div>
+                            <div class="field"><label>Level (1–5)</label><input data-field="Level" name="Input.Languages[@i].Level" type="number" min="1" max="5" value="@l.Level" /></div>
+                            <button type="button" class="btn btn-danger btn-sm" data-remove>✕</button>
+                        </div>
+                    }
+                </div>
+            </section>
+
+            <!-- EDUCATION -->
+            <section class="adm-section">
+                <div class="adm-section-head"><h2>Education &amp; Courses</h2><button type="button" class="btn btn-ghost btn-sm" data-add="Education">+ Add</button></div>
+                <div class="adm-rows" data-section="Education">
+                    @for (var i = 0; i < Model.Input.Education.Count; i++)
+                    {
+                        var ed = Model.Input.Education[i];
+                        <div class="adm-row" data-section="Education">
+                            <div class="grid-2">
+                                <div class="field"><label>Period</label><input data-field="Period" name="Input.Education[@i].Period" value="@ed.Period" /></div>
+                                <div class="field"><label>Title</label><input data-field="Title" name="Input.Education[@i].Title" value="@ed.Title" /></div>
+                            </div>
+                            <div class="field"><label>Institution</label><input data-field="Institution" name="Input.Education[@i].Institution" value="@ed.Institution" /></div>
+                            <div class="field"><label>Note</label><input data-field="Note" name="Input.Education[@i].Note" value="@ed.Note" /></div>
+                            <button type="button" class="btn btn-danger btn-sm" data-remove>Remove</button>
+                        </div>
+                    }
+                </div>
+            </section>
+
+            <div class="adm-save-bar">
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@* Row templates for the "Add" buttons (kept out of the form so they don't post). *@
+<template id="tpl-Experience">
+    <div class="adm-row" data-section="Experience">
+        <div class="grid-2">
+            <div class="field"><label>Period</label><input data-field="Period" /></div>
+            <div class="field"><label>Role</label><input data-field="Role" /></div>
+            <div class="field"><label>Company</label><input data-field="Company" /></div>
+            <div class="field check"><label><input type="checkbox" data-field="Upcoming" value="true" /> Upcoming</label></div>
+        </div>
+        <div class="field"><label>Highlights (one per line)</label><textarea data-field="Highlights" rows="3"></textarea></div>
+        <button type="button" class="btn btn-danger btn-sm" data-remove>Remove</button>
+    </div>
+</template>
+<template id="tpl-Projects">
+    <div class="adm-row" data-section="Projects">
+        <div class="grid-2">
+            <div class="field"><label>Name</label><input data-field="Name" /></div>
+            <div class="field"><label>Category</label><input data-field="Category" /></div>
+        </div>
+        <div class="field"><label>Description</label><textarea data-field="Description" rows="3"></textarea></div>
+        <div class="grid-2">
+            <div class="field"><label>Tech (comma separated)</label><input data-field="Tech" /></div>
+            <div class="field"><label>URL (optional)</label><input data-field="Url" /></div>
+        </div>
+        <button type="button" class="btn btn-danger btn-sm" data-remove>Remove</button>
+    </div>
+</template>
+<template id="tpl-Skills">
+    <div class="adm-row inline-row" data-section="Skills">
+        <div class="field grow"><label>Skill</label><input data-field="Name" /></div>
+        <div class="field"><label>Level (1–5)</label><input data-field="Level" type="number" min="1" max="5" value="3" /></div>
+        <button type="button" class="btn btn-danger btn-sm" data-remove>✕</button>
+    </div>
+</template>
+<template id="tpl-Languages">
+    <div class="adm-row inline-row" data-section="Languages">
+        <div class="field grow"><label>Language</label><input data-field="Name" /></div>
+        <div class="field"><label>Level (1–5)</label><input data-field="Level" type="number" min="1" max="5" value="3" /></div>
+        <button type="button" class="btn btn-danger btn-sm" data-remove>✕</button>
+    </div>
+</template>
+<template id="tpl-Education">
+    <div class="adm-row" data-section="Education">
+        <div class="grid-2">
+            <div class="field"><label>Period</label><input data-field="Period" /></div>
+            <div class="field"><label>Title</label><input data-field="Title" /></div>
+        </div>
+        <div class="field"><label>Institution</label><input data-field="Institution" /></div>
+        <div class="field"><label>Note</label><input data-field="Note" /></div>
+        <button type="button" class="btn btn-danger btn-sm" data-remove>Remove</button>
+    </div>
+</template>
+
+@section Scripts {
+    <script src="~/js/admin.js" asp-append-version="true"></script>
+}

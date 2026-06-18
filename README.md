@@ -34,10 +34,34 @@ Then open the URL printed in the console (e.g. `https://localhost:7185`).
 
 ## Updating your CV
 
-Edit `Data/cv.json`:
+**Easiest: the admin editor at `/Admin`** — a browser form for every field, with
+add/remove for experience, projects, skills, etc. Saving writes `Data/cv.json`
+and the live site updates immediately.
+
+Or edit `Data/cv.json` directly:
 - `experience[]` / `projects[]` / `education[]` — add or reorder entries.
 - `skills[]` / `languages[]` — `level` is `1–5` (rendered as a bar at `level × 20%`).
 - Set `"upcoming": true` on a job to show the "Upcoming" badge.
+
+## Admin area (`/Admin`)
+
+Authenticated, single-user editor. **Fail-closed**: disabled unless a password
+is configured.
+
+| Setting | How |
+|---------|-----|
+| Enable it | Set the **`ADMIN_PASSWORD`** environment variable (on Render: dashboard → Environment). Optionally `ADMIN_USERNAME` (defaults to `admin`). |
+| Local dev | If `ADMIN_PASSWORD` is unset, Development uses `admin` / `admin` (logged as a warning). |
+
+Security: cookie auth (HttpOnly, SameSite=Strict, Secure in prod), antiforgery
+on every form, constant-time credential check, and login lockout after 5 failed
+attempts per IP / 15 min.
+
+> ⚠️ **Render free tier has an ephemeral disk.** Admin edits persist until the
+> instance restarts/redeploys, then revert to the committed `cv.json`. To make a
+> change permanent, use the **Export JSON** button in the admin, replace
+> `Data/cv.json` in the repo, and `git push` (which also redeploys). For
+> always-persistent editing, move the data to a database.
 
 ## Where messages go
 

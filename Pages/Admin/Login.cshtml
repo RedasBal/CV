@@ -1,0 +1,40 @@
+@page
+@model CV.Pages.Admin.LoginModel
+@{
+    ViewData["Title"] = "Admin · Sign in";
+}
+
+<div class="admin-auth">
+    <div class="admin-auth-card">
+        <h1>Admin sign in</h1>
+        <p class="muted">Manage your CV content.</p>
+
+        @if (!string.IsNullOrEmpty(Model.Error))
+        {
+            <div class="alert error">@Model.Error</div>
+        }
+
+        @if (!Model.Enabled)
+        {
+            <div class="alert error">
+                The admin area is currently disabled. Set the <code>ADMIN_PASSWORD</code>
+                environment variable to enable it.
+            </div>
+        }
+        else
+        {
+            <form method="post" class="contact-form">
+                <div class="field">
+                    <label asp-for="Username">Username</label>
+                    <input asp-for="Username" autocomplete="username" autofocus />
+                </div>
+                <div class="field">
+                    <label asp-for="Password">Password</label>
+                    <input asp-for="Password" type="password" autocomplete="current-password" />
+                </div>
+                <button type="submit" class="btn btn-primary">Sign in</button>
+            </form>
+        }
+        <p class="admin-back"><a href="/">← Back to site</a></p>
+    </div>
+</div>
