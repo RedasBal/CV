@@ -10,6 +10,9 @@ namespace CV.Services;
 /// </summary>
 public class ContactStore
 {
+    // Hard cap on the message log so a flood can't exhaust the disk.
+    private const long MaxFileBytes = 5 * 1024 * 1024; // 5 MB
+
     private readonly string _path;
     private readonly ILogger<ContactStore> _logger;
     private static readonly SemaphoreSlim Gate = new(1, 1);
@@ -37,6 +40,12 @@ public class ContactStore
         await Gate.WaitAsync();
         try
         {
+            if (File.Exists(_path) && new FileInfo(_path).Length > MaxFileBytes)
+            {
+                _logger.LogWarning("Contact message log exceeded {Max} bytes — dropping message.", MaxFileBytes);
+                return;
+            }
+
             await File.AppendAllTextAsync(_path, line + Environment.NewLine);
         }
         finally

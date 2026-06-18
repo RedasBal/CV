@@ -229,6 +229,8 @@ html[data-theme="light"] .theme-icon::before { content: "☀️"; }
 .contact-list { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 12px; }
 .contact-list span { margin-right: 8px; }
 .contact-form { display: grid; gap: 16px; }
+/* Honeypot — kept in the DOM for bots but removed from view/flow for humans. */
+.hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .field { display: grid; gap: 6px; }
 .field label { font-size: .85rem; font-weight: 600; }
 .field input, .field textarea {

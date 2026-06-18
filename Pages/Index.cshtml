@@ -207,6 +207,11 @@
                 }
                 <form method="post" class="contact-form" novalidate>
                     <div asp-validation-summary="ModelOnly" class="alert error"></div>
+                    @* Honeypot: hidden from humans, tempting to bots. Leave empty. *@
+                    <div class="hp-field" aria-hidden="true">
+                        <label for="Website">Website</label>
+                        <input asp-for="Website" tabindex="-1" autocomplete="off" />
+                    </div>
                     <div class="field">
                         <label asp-for="Contact.Name">Name</label>
                         <input asp-for="Contact.Name" placeholder="Your name" />
