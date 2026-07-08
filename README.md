@@ -29,6 +29,7 @@ Then open the URL printed in the console (e.g. `https://localhost:7185`).
 - **Single-page portfolio**: hero, about, experience timeline, projects, animated skill bars, education, contact.
 - **Data-driven**: all CV content lives in `Data/cv.json`. Edit it and the site updates — no markup changes needed.
 - **Working contact form**: real server-side POST handler with model validation (`[Required]`, `[EmailAddress]`, length rules) and client-side unobtrusive validation. Submissions are appended to `App_Data/messages.jsonl`.
+- **PDF download** at `/cv.pdf` — a print-quality PDF generated server-side from `cv.json` with QuestPDF, so it always matches the live site.
 - **Dark / light theme** toggle, persisted in `localStorage`.
 - **Responsive** layout with a mobile nav, scroll-reveal animations, and `prefers-reduced-motion` support.
 

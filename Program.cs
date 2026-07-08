@@ -2,6 +2,10 @@ using CV.Middleware;
 using CV.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.HttpOverrides;
+using QuestPDF.Infrastructure;
+
+// QuestPDF Community licence — free for individuals and small companies.
+QuestPDF.Settings.License = LicenseType.Community;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +30,7 @@ builder.Services.AddRazorPages(options =>
 builder.Services.AddSingleton<CvService>();
 builder.Services.AddSingleton<ContactStore>();
 builder.Services.AddSingleton<AdminAuth>();
+builder.Services.AddSingleton<CvPdfGenerator>();
 builder.Services.AddMemoryCache(); // backs the contact-form + login rate limiters
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -83,5 +88,15 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+// Download the CV as a generated PDF.
+app.MapGet("/cv.pdf", (CvService cv, CvPdfGenerator pdf) =>
+{
+    var data = cv.Get();
+    var bytes = pdf.Generate(data);
+    var safeName = new string((data.Profile.Name ?? "cv")
+        .Select(ch => char.IsLetterOrDigit(ch) ? ch : '_').ToArray());
+    return Results.File(bytes, "application/pdf", $"{safeName}_CV.pdf");
+});
 
 app.Run();
