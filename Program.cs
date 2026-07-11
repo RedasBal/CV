@@ -31,6 +31,8 @@ builder.Services.AddSingleton<CvService>();
 builder.Services.AddSingleton<ContactStore>();
 builder.Services.AddSingleton<AdminAuth>();
 builder.Services.AddSingleton<CvPdfGenerator>();
+builder.Services.Configure<EmailOptions>(builder.Configuration.GetSection("Email"));
+builder.Services.AddSingleton<EmailSender>();
 builder.Services.AddMemoryCache(); // backs the contact-form + login rate limiters
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

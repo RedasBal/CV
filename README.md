@@ -66,6 +66,34 @@ attempts per IP / 15 min.
 
 ## Where messages go
 
-`Services/ContactStore.cs` appends each submission to `App_Data/messages.jsonl`.
-In production you'd swap that for sending an email or pushing to a queue — the
-service is the single place to change.
+Every contact submission is:
+1. appended to `App_Data/messages.jsonl` (`Services/ContactStore.cs`), and
+2. emailed to you (`Services/EmailSender.cs`) — **if** SMTP is configured.
+
+### Enabling email notifications
+
+The recipient (`Email:To`) defaults to `redas.baltrenas@gmail.com` in
+`appsettings.json`. Credentials are **never** committed — set them as
+environment variables.
+
+**Gmail (recommended):**
+1. Enable **2-Step Verification** on your Google account.
+2. Create an **App Password**: Google Account → Security → App passwords → pick
+   "Mail" → copy the 16-character password.
+3. Set these environment variables (on Render: service → **Environment**):
+
+   | Variable | Value |
+   |----------|-------|
+   | `Email__SmtpUser` | `redas.baltrenas@gmail.com` |
+   | `Email__SmtpPassword` | *(the 16-char app password)* |
+
+   `SmtpHost` (`smtp.gmail.com`), `SmtpPort` (`587`) and `To` already default in
+   `appsettings.json`. Override any of them with `Email__SmtpHost`, etc.
+
+4. Save → redeploy. Submissions now arrive in your inbox, with the visitor's
+   address as **Reply-To** so you can reply directly.
+
+> Locally, set the same variables (Rider run config or user-secrets). If SMTP is
+> left unset, email is simply skipped and messages are still saved to the file.
+> The double underscore `__` maps to the `Email:` config section — that's the
+> .NET convention for nested keys in environment variables.

@@ -14,13 +14,15 @@ public class IndexModel : PageModel
 
     private readonly CvService _cv;
     private readonly ContactStore _contacts;
+    private readonly EmailSender _email;
     private readonly IMemoryCache _cache;
     private readonly ILogger<IndexModel> _logger;
 
-    public IndexModel(CvService cv, ContactStore contacts, IMemoryCache cache, ILogger<IndexModel> logger)
+    public IndexModel(CvService cv, ContactStore contacts, EmailSender email, IMemoryCache cache, ILogger<IndexModel> logger)
     {
         _cv = cv;
         _contacts = contacts;
+        _email = email;
         _cache = cache;
         _logger = logger;
     }
@@ -71,6 +73,7 @@ public class IndexModel : PageModel
         }
 
         await _contacts.SaveAsync(Contact);
+        await _email.SendContactAsync(Contact);
         MessageSent = true;
         Contact = new ContactMessage();
         ModelState.Clear();
